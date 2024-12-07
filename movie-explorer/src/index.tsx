@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import theme from './theme';
+import { ThemeProvider } from '@emotion/react';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -15,7 +17,9 @@ root.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
       <React.StrictMode>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </React.StrictMode>
     </QueryClientProvider>
   </Provider>

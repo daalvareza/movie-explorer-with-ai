@@ -3,13 +3,13 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', // Default blue color
+      main: '#000000',
     },
     secondary: {
-      main: '#dc004e', // Default pink color
+      main: '#1C508D',
     },
     background: {
-      default: '#f5f5f5', // Light gray background
+      default: '#FFFFFF',
     },
   },
   typography: {
@@ -26,14 +26,21 @@ const theme = createTheme({
       fontSize: '1rem',
     },
     button: {
-      textTransform: 'none', // Prevent uppercase transformation
+      textTransform: 'none',
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '8px', // Rounded buttons
+          borderRadius: '1.5rem',
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: '1.5rem',
         },
       },
     },

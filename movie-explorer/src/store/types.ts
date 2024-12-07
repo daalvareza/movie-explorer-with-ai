@@ -4,6 +4,7 @@ export interface Movie {
     Year: string;
     Genre?: string;
     Plot?: string;
+    Poster: string;
 }
 
 export interface Favorite {

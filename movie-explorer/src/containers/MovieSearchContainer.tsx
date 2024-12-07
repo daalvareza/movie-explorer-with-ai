@@ -1,28 +1,41 @@
 import React, { useState } from "react";
 import { useMovies } from "../hooks/useMovies";
-import MovieSearch from "../components/MovieSearch";
+import MovieSearch from "../components/MovieSearch/MovieSearch";
+import MovieDetailsModal from "../components/MovieDetailsModal";
+import Header from "../components/Header/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setPage, setSelectedMovieId } from "../store/moviesSlice";
 
-interface MovieSearchContainerProps {
-    onSelect: (id: string) => void;
-}
-
-const MovieSearchContainer: React.FC<MovieSearchContainerProps> = ({ onSelect }) => {
-    const [query, setQuery] = useState('');
-    const [page, setPage] = useState(1);
+const MovieSearchContainer: React.FC = () => {
+    const dispatch = useDispatch();
+    const { query, page, selectedMovieId } = useSelector((state: RootState) => state.movies);
     const { data, isLoading } = useMovies(query, page);
 
-    const handleSearch = (searchQuery: string, searchPage: number) => {
-        setQuery(searchQuery);
-        setPage(searchPage);
+    const handlePageChange = (newPage: number) => {
+        dispatch(setPage(newPage));
     };
 
     return (
-        <MovieSearch 
-            onSearch={handleSearch}
-            movies={data?.Search || []}
-            onSelect={onSelect}
-            totalResults={data?.totalResults || 0}
-        />
+        <>
+        <Header />
+        {!isLoading && data?.Search && (
+            <MovieSearch
+                movies={data.Search}
+                onSelect={(id) => dispatch(setSelectedMovieId(id))}
+                totalResults={data.totalResults}
+                onPageChange={handlePageChange}
+                currentPage={page}
+            />
+        )}
+        {selectedMovieId && (
+            <MovieDetailsModal 
+                movieId={selectedMovieId}
+                onClose={() => dispatch(setSelectedMovieId(null))}
+                onAddToFavorites={(id) => console.log(`Added ${id} to favorites`)}
+            />
+        )}
+        </>
     );
 };
 
