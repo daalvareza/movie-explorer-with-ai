@@ -5,24 +5,25 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import theme from './theme';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
-  <Provider store={store}>
-    <QueryClientProvider client={queryClient}>
-      <React.StrictMode>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </React.StrictMode>
-    </QueryClientProvider>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>        
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+      </QueryClientProvider>
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import MovieSearchContainer from './containers/MovieSearchContainer';
-import FavoritesContainer from './containers/FavoritesContainer';
+import { BrowserRouter, Routes, Route, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import MovieSearchContainer from './components/MovieSearchContainer/MovieSearchContainer';
+import FavoritesView from './components/FavoritesView/FavoritesView';
 import { CssBaseline } from '@mui/material';
+import Header from './components/Header/Header';
 
 function App() {
-  const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
-
   return (
-    <div className="App">
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true, }}>
       <CssBaseline />
-      <MovieSearchContainer />
-    </div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<MovieSearchContainer />} />
+        <Route path="/favorites" element={<FavoritesView />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

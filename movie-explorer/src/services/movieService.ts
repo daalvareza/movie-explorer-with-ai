@@ -1,22 +1,26 @@
-import axios from "axios";
-
 const API_KEY = 'dcd30bef';
 const BASE_URL = 'https://www.omdbapi.com';
 
 export const searchMovies = async (movieName: string, page: number = 1) => {
-    const { data } = await axios.get(`${BASE_URL}/?apikey=${API_KEY}&s=${movieName}&page=${page}`);
-    return data;
+  const response = await fetch(`${BASE_URL}/?apikey=${API_KEY}&s=${movieName}&page=${page}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch movies');
+  }
+  return response.json();
 };
 
 export const getMovieDetails = async (id: string) => {
-    const { data } = await axios.get(`${BASE_URL}/?apikey=${API_KEY}&i=${id}`);
-    return data;
+  const response = await fetch(`${BASE_URL}/?apikey=${API_KEY}&i=${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch movie details');
+  }
+  return response.json();
 };
 
 export const getRecommendations = async (movieId: string) => {
-    // const { data } = await axios.get(`/recommendations/${movieId}`);
-    const { data } = await axios.get(`${BASE_URL}/?apikey=${API_KEY}&s=batman&page=1`);
-    console.log(data);
-    return data;
+  const response = await fetch(`${BASE_URL}/?apikey=${API_KEY}&s=batman&page=1`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch recommendations');
+  }
+  return response.json();
 };
-  

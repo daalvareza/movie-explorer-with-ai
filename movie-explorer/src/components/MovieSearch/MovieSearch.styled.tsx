@@ -1,5 +1,11 @@
-import styled from "@emotion/styled";
-import { Card, CardMedia, CardContent, Typography, Grid2 } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { Card, CardMedia, CardContent, Typography, Grid2, Box, Pagination } from '@mui/material';
+
+export const MoviesSearchContainer = styled(Box)(() => ({
+    height: "80vh",
+    display: "flex",
+    flexDirection: "column",
+}));
 
 export const MoviesContainer = styled(Grid2)(() => ({
     display: "grid",
@@ -10,15 +16,15 @@ export const MoviesContainer = styled(Grid2)(() => ({
     margin: "2.5rem"
 }));
   
-export const MovieItem = styled.div({
+export const MovieItem = styled("div")(() => ({
     display: "flex",
     width: "100%",
     position: "relative",
-    height: `calc((80vh - 100px) / 2)`,
+    height: "calc((80vh - 100px) / 2)",
     justifyContent: "center",
-});
+}));
 
-export const MovieCard = styled(Card)({
+export const MovieCard = styled(Card)(() => ({
     position: "absolute",
     width: "20vh",
     height: "35vh",
@@ -26,15 +32,15 @@ export const MovieCard = styled(Card)({
     flexDirection: "column",
     justifyContent: "space-between",
     cursor: "pointer",
-});
+}));
   
-export const MoviePoster = styled(CardMedia)({
+export const MoviePoster = styled(CardMedia)(() => ({
     width: "100%",
     height: "100%",
     objectFit: "contain",
-});
+}));
   
-export const MovieCardContent = styled(CardContent)({
+export const MovieCardContent = styled(CardContent)(() => ({
     height: "20%",
     display: "flex",
     alignItems: "center",
@@ -42,10 +48,25 @@ export const MovieCardContent = styled(CardContent)({
     textAlign: "center",
     overflow: "hidden",
     padding: "1rem",
-});
+}));
   
 export const MovieTitle = styled(Typography)(() => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
 }));
+
+export const PaginationContainer = styled(Box)(() => ({
+    marginTop: "1rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+}));
+
+export const StyledPagination = styled(Pagination)({
+    "& .MuiPaginationItem-root": {
+      fontSize: "1.5rem",
+      padding: "0.5rem 1rem",
+    },
+});

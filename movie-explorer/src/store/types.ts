@@ -7,8 +7,6 @@ export interface Movie {
     Poster: string;
 }
 
-export interface Favorite {
-    id: string;
-    title: string;
-    notes?: string;
+export interface Favorite extends Movie {
+    Notes?: string;
 }

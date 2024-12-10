@@ -1,7 +1,6 @@
 import React from "react";
-import { Pagination, Box } from "@mui/material";
 import { Movie } from "../../store/types";
-import { MoviesContainer, MovieItem, MovieCard, MovieCardContent, MoviePoster, MovieTitle } from "./MovieSearch.styled";
+import { MoviesContainer, MovieItem, MovieCard, MovieCardContent, MoviePoster, MovieTitle, MoviesSearchContainer, PaginationContainer, StyledPagination } from "./MovieSearch.styled";
 
 interface MovieSearchProps {
     movies: Movie[];
@@ -19,13 +18,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({
     currentPage 
 }) => {
     return (
-        <Box
-            sx={{
-                height: '80vh',
-                display: 'flex',
-                flexDirection: 'column',
-            }}
-        >
+        <MoviesSearchContainer>
             <MoviesContainer container >
                 {movies.map((movie) => (
                     <MovieItem key={movie.imdbID}>
@@ -42,15 +35,15 @@ const MovieSearch: React.FC<MovieSearchProps> = ({
                     </MovieItem>
                 ))}
             </MoviesContainer>
-            <Box mt={4} display="flex" justifyContent="center">
-                <Pagination 
+            <PaginationContainer mt={4}>
+                <StyledPagination 
                     count={Math.ceil(totalResults / 10)}
                     page={currentPage}
                     onChange={(_, page) => onPageChange(page)}
                     color="secondary"
                 />
-            </Box>
-        </Box>
+            </PaginationContainer>
+        </MoviesSearchContainer>
     );
 };
 

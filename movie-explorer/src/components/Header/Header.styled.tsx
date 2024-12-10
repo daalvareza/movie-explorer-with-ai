@@ -1,14 +1,13 @@
-import styled from "@emotion/styled";
-import { AppBar, Box, InputBase, Paper } from "@mui/material";
-import { Theme } from "@mui/material/styles";
+import { AppBar, Box, InputBase, Paper, Typography } from "@mui/material";
+import { Theme, styled } from "@mui/material/styles";
 
 export const StyledAppBar = styled(AppBar)(({ theme }: { theme: Theme }) => ({
     backgroundColor: theme.palette.primary.main,
-    height: '10vh',
-    justifyContent: 'center',
+    height: "10vh",
+    justifyContent: "center",
 }));
   
-export const SearchContainer = styled(Box)(({ theme }) => ({
+export const SearchContainer = styled(Box)(() => ({
     flex: 1,
     display: "flex",
     justifyContent: "center",
@@ -23,18 +22,8 @@ export const SearchInput = styled(InputBase)(({ theme }: { theme: Theme }) => ({
     boxShadow: theme.shadows[1],
 }));
 
-export const FloatingLogin = ({ children }: { children: React.ReactNode }) => (
-    <Paper
-      sx={{
-        position: "absolute",
-        top: "70px",
-        right: "20px",
-        width: "300px",
-        padding: 2,
-        zIndex: 1000,
-        boxShadow: 5,
-      }}
-    >
-      {children}
-    </Paper>
-);
+export const PageTitle = styled(Typography)(() => ({
+    flexGrow: 0.2,
+    fontWeight: "bold",
+    cursor: "pointer",
+}));

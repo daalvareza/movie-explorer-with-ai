@@ -1,10 +1,10 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "../services/movieService";
 
 export const useMovies = (movieName: string, page: number) => {
-    return useQuery(['movies', movieName, page], () => searchMovies(movieName, page), {
+    return useQuery({
+        queryKey: ['movies', movieName, page],
+        queryFn: () => searchMovies(movieName, page),
         enabled: !!movieName,
-        keepPreviousData: true,
-        staleTime: 1000 * 60 * 5,
     });
 };

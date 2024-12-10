@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FloatingLogin, SearchContainer, SearchInput, StyledAppBar } from "./Header.styled";
-import { Box, Button, IconButton, InputAdornment, TextField, Toolbar, Typography } from "@mui/material";
+import { PageTitle, SearchContainer, SearchInput, StyledAppBar } from "./Header.styled";
+import { Box, Button, IconButton, InputAdornment, Toolbar, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import theme from "../../theme";
 import { setQuery } from "../../store/moviesSlice";
+import { RootState } from "../../store/store";
+import { useNavigate } from 'react-router-dom';
+import LoginModal from "../LoginModal/LoginModal";
+import { getFavoritesByUser } from "../../services/favoriteService";
+import { setFavorites } from "../../store/favoritesSlice";
 
 const Header: React.FC = () => {
     const dispatch = useDispatch();
     const [search, setSearch] = useState("");
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [isSignUp, setIsSignUp] = useState(false);
+    const navigate = useNavigate();
+
+    const favoritesCount = useSelector((state: RootState) => state.favorites.items.length);
+    const userId = useSelector((state: RootState) => state.auth.userId);
+
+    useEffect(() => {
+        dispatch(setQuery("Harry Potter"));
+        if (userId) {
+            getFavoritesByUser(userId).then((favorites) => {
+                dispatch(setFavorites(favorites));
+            });
+        }
+    }, [userId]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -23,17 +38,16 @@ const Header: React.FC = () => {
     const toggleLogin = () => setIsLoginOpen((prev) => !prev);
 
     return (
-        <StyledAppBar position="static" theme={theme}>
+        <StyledAppBar position="static">
             <Toolbar>
-                <Typography fontFamily="Roboto" variant="h4" sx={{ flexGrow: 0.2, fontWeight: "bold" }}>
+                <PageTitle fontFamily="Roboto" variant="h4" onClick={() => navigate('/')}>
                     Movie Explorer
-                </Typography>
+                </PageTitle>
                 <SearchContainer borderRadius="1.5rem">
                     <SearchInput
-                        theme={theme}
                         placeholder="Search for a movie..."
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
                         onKeyDown={handleKeyDown}
                         endAdornment={
                             <InputAdornment 
@@ -46,48 +60,18 @@ const Header: React.FC = () => {
                         }
                     />
                 </SearchContainer>
+                {userId && (
+                    <Button color="inherit" onClick={() => navigate('/favorites')}>
+                        View Favorites ({favoritesCount})
+                    </Button>
+                )}
                 <Box>
                     <IconButton color="inherit" onClick={toggleLogin}>
                         <AccountCircle />
                     </IconButton>
                 </Box>
-                {isLoginOpen && (
-                    <FloatingLogin>
-                        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                            <Typography variant="h6">{isSignUp ? "Sign Up" : "Login"}</Typography>
-                            <IconButton size="small" onClick={toggleLogin}>
-                                <CloseIcon />
-                            </IconButton>
-                        </Box>
-                        {isSignUp ? (
-                            <>
-                                <TextField label="Username" fullWidth margin="normal" />
-                                <TextField label="Email" fullWidth margin="normal" />
-                                <TextField label="Password" type="password" fullWidth margin="normal" />
-                                <Button variant="contained" color="secondary" fullWidth>
-                                    Sign Up
-                                </Button>
-                                <Typography variant="body2" align="center" mt={2}>
-                                    Already have an account?{" "}
-                                <Button onClick={() => setIsSignUp(false)}>Login</Button>
-                                </Typography>
-                            </>
-                            ) : (
-                            <>
-                                <TextField label="Username" fullWidth margin="normal" />
-                                <TextField label="Password" type="password" fullWidth margin="normal" />
-                                <Button variant="contained" color="secondary" fullWidth>
-                                    Login
-                                </Button>
-                                <Typography variant="body2" align="center" mt={2}>
-                                    New user?{" "}
-                                <Button onClick={() => setIsSignUp(true)}>Sign Up</Button>
-                                </Typography>
-                            </>
-                        )}
-                    </FloatingLogin>
-                )}
             </Toolbar>
+            <LoginModal isOpen={isLoginOpen} onClose={toggleLogin} />
         </StyledAppBar>
     );
 };
